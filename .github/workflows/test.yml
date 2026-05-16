@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-python-version: '3.10'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        # No heavy dependencies yet, just core modules
+        
+    - name: Syntax check
+      run: |
+        python3 -m py_compile ai_cli_installer_tui.py
+        python3 -m py_compile benchmark_free_openrouter_models.py
+        python3 -m py_compile OpenRouterOpenCodesetup.py
