@@ -104,4 +104,5 @@ This project provides a practical toolkit for local AI CLI workflows, focused on
 ## Development Workflow
 
 - **Primary TUI**: `ai_cli_installer_tui.py`
+- **Git Operations**: Use HTTPS (authenticated via `gh` credential helper) to ensure password-less and passphrase-less pushes.
 - **Verification**: Always run `python3 -m py_compile` and manual verification tests before declaring a milestone complete.
