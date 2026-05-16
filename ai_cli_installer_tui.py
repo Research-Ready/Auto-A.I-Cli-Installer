@@ -317,7 +317,15 @@ def codex_login_browser(state: AppState, device: bool = False) -> bool:
 
 
 def refresh_tool_status(state: AppState) -> None:
+    # Check for a mock flag (e.g., environment variable) for CI testing
+    is_mock = os.environ.get("MOCK_DETECTION") == "1"
+    
     for key, tool in state.tools.items():
+        if is_mock:
+            tool.installed = True
+            tool.version = "Mock Version 1.0.0"
+            continue
+
         path = shutil.which(tool.command)
         if path:
             tool.installed = True

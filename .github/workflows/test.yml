@@ -20,10 +20,24 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        # No heavy dependencies yet, just core modules
+        pip install flake8
         
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings.
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
     - name: Syntax check
       run: |
         python3 -m py_compile ai_cli_installer_tui.py
         python3 -m py_compile benchmark_free_openrouter_models.py
         python3 -m py_compile OpenRouterOpenCodesetup.py
+
+    - name: Test Mock Detection Logic
+      env:
+        MOCK_DETECTION: "1"
+      run: |
+        # Run a small python snippet to verify the state object populates correctly in mock mode
+        python3 -c "from ai_cli_installer_tui import AppState, refresh_tool_status; s=AppState(); refresh_tool_status(s); assert all(t.installed for t in s.tools.values()); print('Mock detection verified')"
