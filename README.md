@@ -2,28 +2,59 @@
 
 ## Outstanding tasks
 
-The current script installs and configures Gemini CLI and Codex CLI. The next major milestone is to turn this repository into a proper OpenCode and OpenRouter setup assistant.
+This repository should be treated as **two related tools**, not one combined installer.
 
-### OpenRouter model discovery and selection
+### Script 1: CLI and tool installer
+
+Role: install the command-line tools and system dependencies.
+
+This script should focus on:
+
+- Installing Node.js and npm when needed.
+- Installing Gemini CLI.
+- Installing Codex CLI.
+- Installing OpenCode.
+- Detecting whether tools are already available.
+- Verifying tool versions after installation.
+- Avoiding provider-specific configuration unless it is required for installation.
+
+Outstanding installer tasks:
+
+- [ ] Add OpenCode installation and detection.
+- [ ] Detect existing `node`, `npm`, `gemini`, `codex`, and `opencode` installations.
+- [ ] Show installed versions in the TUI.
+- [ ] Separate pure installation tasks from API-key and model-configuration tasks.
+- [ ] Add a dry-run mode that shows what would be installed.
+- [ ] Create backups only when editing files.
+- [ ] Keep installer logs clean and avoid printing secrets.
+
+### Script 2: configuration, API keys, and model selection
+
+Role: configure provider credentials, OpenCode settings, model selection, and safe defaults.
+
+This script should focus on:
+
+- Setting API keys.
+- Testing API keys.
+- Fetching available models.
+- Selecting a model.
+- Writing OpenCode configuration.
+- Setting safe context and output limits.
+- Testing model capabilities before recommending a model.
+
+Outstanding configuration tasks:
 
 - [ ] Add OpenRouter API key input.
-- [ ] Validate the OpenRouter API key before writing any config.
+- [ ] Validate the OpenRouter API key before writing config.
+- [ ] Store the OpenRouter key safely, for example in `~/.config/opencode/openrouter.key` with restricted permissions.
 - [ ] Fetch the full OpenRouter model list from the API.
 - [ ] Load each model's maximum context window size.
 - [ ] Load each model's maximum output token limit when available.
 - [ ] Load model pricing and detect free models reliably.
 - [ ] Detect whether a model supports text, chat, tools, images, structured output, and reasoning where possible.
-- [ ] Score models based on context size, cost, coding usefulness, reliability, and test results.
-- [ ] Show recommended models at the top of the TUI.
-- [ ] Allow the user to choose between free-only mode and all-model mode.
-
-### OpenCode configuration
-
-- [ ] Add OpenCode installation and detection.
+- [ ] Configure OpenCode to use the selected OpenRouter model.
 - [ ] Write OpenCode configuration to `~/.config/opencode/opencode.json` or `~/.config/opencode/opencode.jsonc`.
 - [ ] Back up existing OpenCode config before writing changes.
-- [ ] Store the OpenRouter key safely, for example in `~/.config/opencode/openrouter.key` with restricted file permissions.
-- [ ] Configure OpenCode to use the selected OpenRouter model.
 - [ ] Set the model context limit in OpenCode based on the model's actual maximum context window.
 - [ ] Set the router or provider configuration to respect that model-specific context limit.
 - [ ] Set a safe default output limit for the selected model.
@@ -45,21 +76,32 @@ Recommended future OpenCode defaults:
 
 ### Model capability testing
 
-The installer should not trust model metadata blindly. It should test each selected model before recommending it.
+The configuration script should not trust model metadata blindly. It should test each selected model before recommending it.
 
-- [ ] Test a basic chat request.
-- [ ] Test a coding-style request.
-- [ ] Test a tool-use request.
-- [ ] Test whether the model can handle OpenCode-style tool calling.
-- [ ] Test whether the model respects the selected output token limit.
-- [ ] Test the practical context window with a controlled large-context prompt.
-- [ ] Detect when a model fails before reaching its advertised context window.
-- [ ] Record whether the model fails because of context size, tool use, rate limits, provider errors, or unsupported parameters.
-- [ ] Store test results locally so the TUI can avoid repeatedly testing the same model.
+Required tests:
+
+- [ ] Basic chat request.
+- [ ] Coding-style request.
+- [ ] Tool-use request.
+- [ ] OpenCode-style tool calling compatibility.
+- [ ] Output token limit behavior.
+- [ ] Practical context-window behavior with a controlled large-context prompt.
+- [ ] Failure detection before the advertised context window is reached.
+- [ ] Error classification for context size, unsupported tools, rate limits, provider errors, and unsupported parameters.
+- [ ] Local result caching so the same model is not retested unnecessarily.
+
+The test system should answer questions like:
+
+- Can this model actually be used through OpenRouter?
+- Can this model handle tool calls?
+- Can this model handle OpenCode-style workflows?
+- Does the model really support the advertised context window?
+- What is the safe context limit for this model in practice?
+- What output limit should the configuration tool choose?
 
 ### Free-model benchmark script
 
-Add a second script that automatically tests all available free OpenRouter models.
+Add an additional script that automatically goes through all available free OpenRouter models, tests them, and updates the recommended model selection.
 
 Planned script:
 
@@ -71,15 +113,16 @@ This script should:
 
 - [ ] Fetch all OpenRouter models.
 - [ ] Filter free models.
-- [ ] Run a small basic chat test for every free model.
+- [ ] Run a basic chat test for every free model.
 - [ ] Run a coding prompt test for every free model.
 - [ ] Run a tool-use compatibility test for every free model.
 - [ ] Run a controlled context-window test.
-- [ ] Save results to a local JSON file.
+- [ ] Save raw results to a local JSON file.
 - [ ] Save a readable Markdown report.
 - [ ] Rank models by usefulness for OpenCode.
-- [ ] Update the model selection data used by the TUI.
+- [ ] Update the recommended model list used by the configuration TUI.
 - [ ] Mark broken, rate-limited, unreliable, or non-tool-capable models.
+- [ ] Record practical context limits, not only advertised metadata.
 
 Suggested outputs:
 
@@ -91,13 +134,13 @@ recommended_models.json
 
 ### Context length safety
 
-The project should prevent errors like:
+The configuration tool should prevent errors like:
 
 ```text
 This endpoint's maximum context length is 131072 tokens. However, you requested about 242419 tokens.
 ```
 
-To prevent this, the installer should:
+To prevent this, it should:
 
 - [ ] Calculate a safe input budget for each selected model.
 - [ ] Reserve output tokens conservatively.
@@ -105,6 +148,8 @@ To prevent this, the installer should:
 - [ ] Warn when OpenCode sessions need `/compact` or `/new`.
 - [ ] Prefer models with larger context windows for agentic coding workflows.
 - [ ] Prevent known bad combinations of model, output limit, and tool-heavy sessions.
+- [ ] Set the router/provider context limit to match the selected model's real limit.
+- [ ] Keep model-specific limits in the generated OpenCode config.
 
 ## Current status
 
@@ -128,11 +173,16 @@ It currently focuses on:
 - API key environment variable setup
 - Basic install verification
 
-It does not yet configure OpenCode or OpenRouter.
+The repository should now evolve toward two separate scripts:
 
-## What it does now
+| Script role | Responsibility |
+| --- | --- |
+| CLI installer | Install tools such as Gemini CLI, Codex CLI, OpenCode, Node.js, and npm |
+| Configuration tool | Configure API keys, provider settings, model selection, OpenCode settings, and OpenRouter limits |
 
-The installer can:
+## What the installer does now
+
+The current installer can:
 
 - Detect whether `node` and `npm` are installed.
 - Install Node.js and npm using a supported system package manager.
@@ -144,6 +194,8 @@ The installer can:
 - Run Codex login using an API key, browser login, device login, or skip login.
 - Verify whether `node`, `npm`, `gemini`, and `codex` are available.
 - Show install logs inside the terminal UI.
+
+Some of the API-key behavior currently lives in the installer. Long term, this should move into the configuration tool so the installer remains focused on installing tools.
 
 ## Supported platforms
 
@@ -290,7 +342,7 @@ python3 ai_cli_installer_tui.py
 
 ## Repository purpose
 
-This repository is meant to become a small, practical installer for local AI CLI workflows.
+This repository is meant to become a small, practical toolkit for local AI CLI workflows.
 
 It should help with:
 
