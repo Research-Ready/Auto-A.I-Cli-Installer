@@ -1,0 +1,758 @@
+[
+  {
+    "id": "baidu/cobuddy:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.3443918228149414,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.13268733024597168,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.11667060852050781,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 131072
+  },
+  {
+    "id": "openrouter/owl-alpha",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.12278103828430176,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.13117265701293945,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.1332385540008545,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 1048756
+  },
+  {
+    "id": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.12587285041809082,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.14377236366271973,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.12046146392822266,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 256000
+  },
+  {
+    "id": "poolside/laguna-xs.2:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.11825180053710938,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.13893628120422363,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.13095593452453613,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 131072
+  },
+  {
+    "id": "poolside/laguna-m.1:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.1234433650970459,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.129929780960083,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.1319112777709961,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 131072
+  },
+  {
+    "id": "deepseek/deepseek-v4-flash:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.12416505813598633,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.129042387008667,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.1261310577392578,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 1048576
+  },
+  {
+    "id": "google/gemma-4-26b-a4b-it:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.12194252014160156,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.13115406036376953,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.12293696403503418,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 262144
+  },
+  {
+    "id": "google/gemma-4-31b-it:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.15373945236206055,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.12760639190673828,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.14744210243225098,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 262144
+  },
+  {
+    "id": "arcee-ai/trinity-large-thinking:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.12257814407348633,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.13076424598693848,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.21914267539978027,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 262144
+  },
+  {
+    "id": "google/lyria-3-pro-preview",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.12503504753112793,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.13951849937438965,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.12694120407104492,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 1048576
+  },
+  {
+    "id": "google/lyria-3-clip-preview",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.1385807991027832,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.13109064102172852,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.12410545349121094,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 1048576
+  },
+  {
+    "id": "nvidia/nemotron-3-super-120b-a12b:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.12918734550476074,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.14629030227661133,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.14151883125305176,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 1000000
+  },
+  {
+    "id": "minimax/minimax-m2.5:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.13187670707702637,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.12880325317382812,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.12196707725524902,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 204800
+  },
+  {
+    "id": "openrouter/free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.13335824012756348,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.13092255592346191,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.12044644355773926,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 200000
+  },
+  {
+    "id": "liquid/lfm-2.5-1.2b-thinking:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.12790417671203613,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.13587617874145508,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.12317132949829102,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 32768
+  },
+  {
+    "id": "liquid/lfm-2.5-1.2b-instruct:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.24541354179382324,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.14060115814208984,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.12588715553283691,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 32768
+  },
+  {
+    "id": "nvidia/nemotron-3-nano-30b-a3b:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.12713623046875,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.13751935958862305,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.14318609237670898,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 256000
+  },
+  {
+    "id": "nvidia/nemotron-nano-12b-v2-vl:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.1383988857269287,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.1379544734954834,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.1455843448638916,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 128000
+  },
+  {
+    "id": "qwen/qwen3-next-80b-a3b-instruct:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.12475824356079102,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.15222787857055664,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.11672449111938477,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 262144
+  },
+  {
+    "id": "nvidia/nemotron-nano-9b-v2:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.18622159957885742,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.139481782913208,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.12828469276428223,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 128000
+  },
+  {
+    "id": "openai/gpt-oss-120b:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.1497817039489746,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.13138961791992188,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.1403520107269287,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 131072
+  },
+  {
+    "id": "openai/gpt-oss-20b:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.15524768829345703,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.6434240341186523,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.12688922882080078,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 131072
+  },
+  {
+    "id": "z-ai/glm-4.5-air:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.11807537078857422,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.1319866180419922,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.1303417682647705,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 131072
+  },
+  {
+    "id": "qwen/qwen3-coder:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.14726543426513672,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.11989474296569824,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.13912296295166016,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 1048576
+  },
+  {
+    "id": "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.12242341041564941,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.42804956436157227,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.12256717681884766,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 32768
+  },
+  {
+    "id": "meta-llama/llama-3.3-70b-instruct:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.14206647872924805,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.12983274459838867,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.12605571746826172,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 131072
+  },
+  {
+    "id": "meta-llama/llama-3.2-3b-instruct:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.13393950462341309,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.13494420051574707,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.1336193084716797,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 131072
+  },
+  {
+    "id": "nousresearch/hermes-3-llama-3.1-405b:free",
+    "tests": {
+      "chat": {
+        "success": false,
+        "latency": 0.1285099983215332,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "coding": {
+        "success": false,
+        "latency": 0.12343001365661621,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      },
+      "tool_use": {
+        "success": false,
+        "latency": 0.117462158203125,
+        "response": "",
+        "tool_calls": false,
+        "error": "User not found."
+      }
+    },
+    "advertised_context": 131072
+  }
+]
