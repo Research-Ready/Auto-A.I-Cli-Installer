@@ -262,6 +262,50 @@ class InstallerCore:
             self.state.logs.append(f"Error fetching models: {e}")
         return False
 
+    def test_model_capabilities(self, model_id: str) -> Dict[str, bool]:
+        key = self.state.openrouter_api_key
+        if not key.strip(): return {"request": False, "tools": False}
+        
+        results = {"request": False, "tools": False}
+        import json
+        
+        # Test 1: Basic Request
+        payload = {
+            "model": model_id,
+            "messages": [{"role": "user", "content": "Ping"}]
+        }
+        cmd = ["curl", "-s", "-X", "POST", "-H", f"Authorization: Bearer {key}", "-H", "Content-Type: application/json", "-d", json.dumps(payload), "https://openrouter.ai/api/v1/chat/completions"]
+        try:
+            res = subprocess.run(cmd, capture_output=True, text=True)
+            if res.returncode == 0:
+                data = json.loads(res.stdout)
+                if "choices" in data: results["request"] = True
+        except Exception: pass
+
+        # Test 2: Tool-use (function calling)
+        tools = [{
+            "type": "function",
+            "function": {
+                "name": "test",
+                "parameters": {"type": "object", "properties": {"val": {"type": "string"}}}
+            }
+        }]
+        payload["tools"] = tools
+        payload["messages"] = [{"role": "user", "content": "Call the test function with val='hello'"}]
+        # Update cmd with new payload
+        cmd[-2] = json.dumps(payload)
+        
+        try:
+            res = subprocess.run(cmd, capture_output=True, text=True)
+            if res.returncode == 0:
+                data = json.loads(res.stdout)
+                if "choices" in data:
+                    msg = data["choices"][0]["message"]
+                    if "tool_calls" in msg: results["tools"] = True
+        except Exception: pass
+        
+        return results
+
     def generate_opencode_config(self) -> None:
         if not self.state.selected_model or not self.state.openrouter_api_key:
             return

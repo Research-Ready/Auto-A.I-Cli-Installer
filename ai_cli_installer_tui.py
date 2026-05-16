@@ -116,8 +116,33 @@ def select_model_menu(stdscr, state: AppState, core: InstallerCore):
                 selected += 1
                 if selected >= offset + visible_count: offset = selected - visible_count + 1
         elif ch in (10, 13):
-            state.selected_model = state.available_models[selected]["id"]
-            break
+            model_id = state.available_models[selected]["id"]
+            stdscr.clear()
+            stdscr.addstr(1, 2, f"Testing capabilities for {model_id}...")
+            stdscr.addstr(2, 2, "Checking basic request and tool-use compatibility...")
+            stdscr.refresh()
+            
+            results = core.test_model_capabilities(model_id)
+            
+            stdscr.clear()
+            stdscr.addstr(1, 2, f"Capability results for {model_id}:")
+            stdscr.addstr(3, 4, f"Basic Request: {'PASSED ✅' if results['request'] else 'FAILED ❌'}")
+            stdscr.addstr(4, 4, f"Tool-use:      {'PASSED ✅' if results['tools'] else 'FAILED ❌'}")
+            
+            if not results["request"]:
+                stdscr.addstr(6, 2, "Warning: This model failed basic request test.")
+                stdscr.addstr(7, 2, "It may be broken or currently unavailable.")
+            
+            stdscr.addstr(9, 2, "Press 'y' to select anyway, 'n' to go back.")
+            stdscr.refresh()
+            
+            while True:
+                choice = stdscr.getch()
+                if choice in (ord('y'), ord('Y')):
+                    state.selected_model = model_id
+                    return
+                if choice in (ord('n'), ord('N')):
+                    break
         elif ch == ord("q"):
             break
 
