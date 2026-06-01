@@ -463,6 +463,14 @@ curl http://10.0.6.10:6333/collections
 | Uptime Kuma | `10.0.6.15:3201` |
 | Portainer | `10.0.6.15:9443` |
 
+### Live service status
+
+Checked every 30 minutes by GitHub Actions via Tailscale. 🟢 up · 🔴 down · 🟡 unexpected response.
+
+<!-- SERVICE_STATUS_START -->
+*Status not yet generated — workflow hasn't run yet.*
+<!-- SERVICE_STATUS_END -->
+
 ---
 
 ## Development
