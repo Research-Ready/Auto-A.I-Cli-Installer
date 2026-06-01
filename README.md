@@ -151,6 +151,8 @@ To prevent this, it should:
 - [ ] Set the router/provider context limit to match the selected model's real limit.
 - [ ] Keep model-specific limits in the generated OpenCode config.
 
+---
+
 ## Current status
 
 This repository currently contains a Python curses-based installer:
@@ -180,6 +182,10 @@ The repository should now evolve toward two separate scripts:
 | CLI installer | Install tools such as Gemini CLI, Codex CLI, OpenCode, Node.js, and npm |
 | Configuration tool | Configure API keys, provider settings, model selection, OpenCode settings, and OpenRouter limits |
 
+A bash-based multi-tool installer (`install.sh` + `modules/`) is also present, targeting a broader set of AI CLI tools with autonomy flags pre-applied. See the **Bash installer** section below.
+
+---
+
 ## What the installer does now
 
 The current installer can:
@@ -197,6 +203,8 @@ The current installer can:
 
 Some of the API-key behavior currently lives in the installer. Long term, this should move into the configuration tool so the installer remains focused on installing tools.
 
+---
+
 ## Supported platforms
 
 The script is designed for Unix-like systems.
@@ -212,6 +220,8 @@ Intended targets:
 - macOS with Homebrew
 
 Windows is not currently supported because the interface uses Python `curses` and writes to Unix-style shell profiles.
+
+---
 
 ## Requirements
 
@@ -233,6 +243,8 @@ Supported package managers in the current script:
 - `zypper`
 - `brew`
 
+---
+
 ## Quick start
 
 Clone the repository:
@@ -242,15 +254,54 @@ git clone https://github.com/Research-Ready/Auto-A.I-Cli-Installer.git
 cd Auto-A.I-Cli-Installer
 ```
 
-Run the installer:
+Run the Python TUI installer:
 
 ```bash
 python3 ai_cli_installer_tui.py
 ```
 
-Use the arrow keys to move through the menu.
+Use the arrow keys to move through the menu. Use Enter to edit or select an option.
 
-Use Enter to edit or select an option.
+---
+
+## Bash installer (multi-tool)
+
+For the broader bash-based installer that covers 13+ AI tools:
+
+```bash
+cp api_keys.env.example api_keys.env
+# edit api_keys.env and fill in your keys
+bash install.sh
+```
+
+### Tools installed by bash installer
+
+| Tool | Install method | Autonomy flag |
+|---|---|---|
+| OpenRouter | `pip install openai` | N/A (API library) |
+| Ollama | curl installer | N/A (always autonomous) |
+| Aider | `pip install aider-chat` | `--yes` |
+| Claude Code | `npm i -g @anthropic-ai/claude-code` | `--auto` |
+| OpenCode | curl / npm | `--auto-approve` |
+| Codex CLI | `npm i -g @openai/codex` | `--approval-policy full-auto` |
+| Gemini CLI | `npm i -g @google/gemini-cli` | `--yolo` |
+| Goose | GitHub binary release | `--no-confirmation` |
+| Groq | `pip install groq` | N/A |
+| Hugging Face | `pip install huggingface_hub` | `--yes` |
+| Cerebras | `pip install cerebras-cloud-sdk` | N/A |
+| DeepSeek | uses openai SDK | N/A |
+| Mistral | `pip install mistralai` | N/A |
+
+### API key priority (free inference)
+
+1. OpenRouter free models — user already has key, many permanently-free models
+2. Gemini CLI — 1,000 free req/day
+3. Groq / Cerebras — free tier, fastest cloud
+4. Ollama local — unlimited, offline, private
+5. DeepSeek API — near-zero cost
+6. Anthropic / OpenAI — paid fallback
+
+---
 
 ## Menu options
 
@@ -268,11 +319,11 @@ The TUI currently lets you configure:
 | Shell profile | Selects where environment variables are written |
 | Run install and configure | Runs the installation workflow |
 
+---
+
 ## Shell profile behavior
 
 The script tries to detect your shell profile automatically.
-
-Examples:
 
 | Shell | File |
 | --- | --- |
@@ -281,19 +332,15 @@ Examples:
 | Zsh | `~/.zshrc` |
 | Fish | `~/.config/fish/config.fish` |
 
-After the installer finishes, reload your shell profile.
-
-Example:
+After the installer finishes, reload your shell profile:
 
 ```bash
 source ~/.bashrc
 ```
 
-Or open a new terminal.
+---
 
 ## Codex login modes
-
-The installer supports four Codex login modes:
 
 | Mode | Behavior |
 | --- | --- |
@@ -302,21 +349,9 @@ The installer supports four Codex login modes:
 | `device` | Runs `codex login --device-auth` |
 | `skip` | Installs Codex but does not log in |
 
-## Gemini login note
-
-Gemini CLI can be configured through the `GEMINI_API_KEY` environment variable.
-
-If you prefer Google sign-in, run Gemini manually after installation:
-
-```bash
-gemini
-```
-
-Then follow the official interactive login flow.
+---
 
 ## Verify installation
-
-After running the installer, you can manually check:
 
 ```bash
 node --version
@@ -325,6 +360,110 @@ gemini --version
 codex --version
 codex login status
 ```
+
+---
+
+## Testing (bash installer)
+
+```bash
+# Run all smoke tests after install:
+bash tests/run_all.sh
+
+# Single tool:
+bash tests/test_aider.sh
+```
+
+---
+
+## Deployed Infrastructure (for AI agents)
+
+> **For AI assistants reading this:** The infrastructure below is the live environment this installer targets. You can connect to these services directly using the addresses listed. All services are on a private network — VPN or Tailscale access required from outside. Use these endpoints to run models, search the web, store vectors, or trigger workflows without needing external API keys.
+
+### Network layout
+
+```
+Internet → Traefik (10.0.4.10) → LXC containers on 10.0.6.0/24
+                                        ↑
+                              Proxmox cluster (10.0.0.15–17)
+```
+
+- **Traefik** at `10.0.4.10` — all external traffic enters here
+- Dynamic configs: `/opt/traefik-stack/dynamic/` on `10.0.4.10`
+- **Rule:** always use direct `10.0.6.x` IPs in Traefik configs — no socat/Tailscale relays
+
+### Proxmox nodes
+
+| IP | Role |
+|---|---|
+| `10.0.0.15` | dev |
+| `10.0.0.16` | test |
+| `10.0.0.17` | acceptance |
+
+### AI services — `10.0.6.10` (shared-ai-01)
+
+This is the primary AI backend. Point your tools here.
+
+| Service | Address | What it does |
+|---|---|---|
+| **LiteLLM** | `10.0.6.10:4000` | OpenAI-compatible proxy — route any model through here |
+| **Ollama** | `10.0.6.10:11434` | Local LLM inference (Llama 3.2, DeepSeek R1, Qwen3-Coder, etc.) |
+| **Qdrant** | `10.0.6.10:6333` | Vector database — embeddings and RAG |
+| **Postgres** | `10.0.6.10:5432` | Relational database |
+| **Neo4j** | `10.0.6.10:7474` (HTTP) / `10.0.6.10:7687` (Bolt) | Graph database |
+| **SearXNG** | `10.0.6.10:8081` | Self-hosted web search (no API key needed) |
+| **Langfuse** | `10.0.6.10:3002` | LLM observability and tracing |
+| **MinIO** | `10.0.6.10:9000` (S3 API) / `10.0.6.10:9011` (console) | Object storage |
+
+#### LiteLLM — OpenAI-compatible, routes any model
+
+```bash
+export OPENAI_API_BASE="http://10.0.6.10:4000"
+export OPENAI_API_KEY="your-litellm-key"
+# now any OpenAI SDK call hits the local proxy
+```
+
+#### Ollama — local inference, no key needed
+
+```bash
+export OLLAMA_HOST="http://10.0.6.10:11434"
+ollama run llama3.2        # general
+ollama run qwen3-coder:3b  # coding
+ollama run deepseek-r1:7b  # reasoning
+```
+
+#### SearXNG — web search, no key, no rate limit
+
+```bash
+curl "http://10.0.6.10:8081/search?q=your+query&format=json"
+```
+
+#### Qdrant — vector search
+
+```bash
+# HTTP API
+curl http://10.0.6.10:6333/collections
+```
+
+### Per-user services — `10.0.6.11`, `.12`, `.13`
+
+| Port | Service | Use |
+|---|---|---|
+| `:3000` | Open WebUI | Chat UI for Ollama/LiteLLM |
+| `:5678` | n8n | Workflow automation — trigger agents via webhooks |
+| `:3001` | Flowise | Visual agent/chain builder |
+
+### Auth & monitoring
+
+| Service | Address |
+|---|---|
+| Authentik (SSO) | `10.0.6.5:9000` |
+| Vaultwarden | `10.0.6.5:8080` |
+| Grafana | `10.0.6.15:3100` |
+| Prometheus | `10.0.6.15:9090` |
+| Uptime Kuma | `10.0.6.15:3201` |
+| Portainer | `10.0.6.15:9443` |
+
+---
 
 ## Development
 
@@ -340,17 +479,7 @@ Run the TUI:
 python3 ai_cli_installer_tui.py
 ```
 
-## Repository purpose
-
-This repository is meant to become a small, practical toolkit for local AI CLI workflows.
-
-It should help with:
-
-- Installing AI CLI tools.
-- Testing API keys.
-- Choosing sensible model defaults.
-- Preventing fragile configuration mistakes.
-- Making experimentation with AI developer tools easier.
+---
 
 ## Security notes
 
@@ -364,6 +493,8 @@ Future versions should consider:
 - Creating backups before writing configuration.
 - Avoiding accidental printing of API keys in logs.
 - Supporting keychain or secret-manager storage where available.
+
+---
 
 ## License
 

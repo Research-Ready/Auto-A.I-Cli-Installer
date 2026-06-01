@@ -1,0 +1,18 @@
+# Secrets — never commit
+api_keys.env
+*.env
+*.secret
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+.npm/
+
+# Logs
+*.log
