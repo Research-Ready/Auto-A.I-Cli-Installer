@@ -256,7 +256,24 @@ class InstallerCore:
             if result.returncode == 0:
                 import json
                 data = json.loads(result.stdout)
-                self.state.available_models = data.get("data", [])
+                raw_models = data.get("data", [])
+                
+                # Filter text models with free pricing
+                processed = []
+                for m in raw_models:
+                    pricing = m.get("pricing", {})
+                    # Some pricing is "0", some is 0.0
+                    is_free = str(pricing.get("prompt", "1")) == "0" and str(pricing.get("completion", "1")) == "0"
+                    
+                    if is_free:
+                        params = set(m.get("supported_parameters", []) or [])
+                        m["supports_tools"] = "tools" in params
+                        processed.append(m)
+                
+                # Sort: tools first, then by context length (descending)
+                processed.sort(key=lambda x: (0 if x["supports_tools"] else 1, -x.get("context_length", 0)))
+                
+                self.state.available_models = processed
                 return True
         except Exception as e:
             self.state.logs.append(f"Error fetching models: {e}")
@@ -312,17 +329,19 @@ class InstallerCore:
 
         config_dir = Path.home() / ".config" / "opencode"
         config_file = config_dir / "opencode.json"
+        key_path = config_dir / "openrouter.key"
         
         # Find the selected model metadata
         model_meta = next((m for m in self.state.available_models if m["id"] == self.state.selected_model), None)
         
         config = {
+            "$schema": "https://opencode.ai/config.json",
             "provider": {
                 "openrouter": {
                     "name": "OpenRouter",
                     "npm": "@ai-sdk/openai-compatible",
                     "options": {
-                        "apiKey": "{env:OPENROUTER_API_KEY}",
+                        "apiKey": f"{{file:{key_path.as_posix()}}}",
                         "baseURL": "https://openrouter.ai/api/v1"
                     },
                     "models": {
@@ -332,13 +351,15 @@ class InstallerCore:
                                 "output": 4096
                             },
                             "capabilities": {
-                                "tool_call": True,
+                                "tool_call": model_meta.get("supports_tools", True) if model_meta else True,
                                 "attachments": True
                             }
                         }
                     }
                 }
             },
+            "model": f"openrouter/{self.state.selected_model}",
+            "small_model": f"openrouter/{self.state.selected_model}",
             "compaction": {
                 "auto": True,
                 "prune": True,
